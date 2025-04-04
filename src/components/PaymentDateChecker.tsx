@@ -1,12 +1,6 @@
 import { useState } from "react";
-import {
-  Box,
-  Button,
-  TextField,
-  Typography,
-  Container,
-  Alert,
-} from "@mui/material";
+import { Box, Button, TextField, Typography, Alert, Grid } from "@mui/material";
+import COLORS from "../constants/Colors";
 
 function PaymentDateChecker() {
   const [invoiceDate, setInvoiceDate] = useState("");
@@ -45,19 +39,32 @@ function PaymentDateChecker() {
   };
 
   return (
-    <Container component="main" maxWidth="sm">
+    <Grid
+      container
+      direction="row"
+      sx={{
+        mt: 6,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          backgroundColor: "#fff",
+          backgroundColor: COLORS.lightest,
           padding: 4,
           borderRadius: 2,
-          boxShadow: 3,
         }}
       >
-        <Typography variant="h5" component="h3" gutterBottom align="center">
+        <Typography
+          variant="h5"
+          component="h3"
+          gutterBottom
+          align="center"
+          sx={{ color: COLORS.accent }}
+        >
           Payment Date Checker
         </Typography>
 
@@ -87,19 +94,19 @@ function PaymentDateChecker() {
             variant="contained"
             color="primary"
             fullWidth
-            sx={{ marginTop: 2 }}
+            sx={{ mt: 2, backgroundColor: COLORS.secondary }}
           >
             Check Payment Date
           </Button>
         </Box>
 
         {paymentDate && (
-          <Alert severity="success" sx={{ marginTop: 3 }}>
-            Your invoice pay date will be {paymentDate}
+          <Alert severity="success" sx={{ mt: 3, fontSize: "20px" }}>
+            Your invoice pay date will be <strong>{paymentDate}</strong>
           </Alert>
         )}
       </Box>
-    </Container>
+    </Grid>
   );
 }
 
