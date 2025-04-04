@@ -20,7 +20,7 @@ Invoice Payment Date Calculator
 
 ## Deployment CI/CD
 
-- Github Actions CI/CD pipeline hosted on [Netlify.app](https://www.netlify.com/)
+- Github Actions CI/CD pipeline hosted on [Netlify.app](https://invoice-checker-quickly.netlify.app/)
 
 ## References
 
