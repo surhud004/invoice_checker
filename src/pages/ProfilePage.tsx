@@ -5,11 +5,11 @@ import {
   Box,
   Button,
   Typography,
-  Container,
   CircularProgress,
   Alert,
-  Divider,
+  Grid,
 } from "@mui/material";
+import COLORS from "../constants/Colors";
 
 function ProfilePage() {
   const { token, logout } = useAuth();
@@ -48,98 +48,120 @@ function ProfilePage() {
   if (error) return <Alert severity="error">{error}</Alert>;
   if (!user)
     return (
-      <Typography variant="body1" color="textSecondary">
+      <Typography variant="body1" color={COLORS.secondary}>
         No user data available
       </Typography>
     );
 
   return (
-    <Container component="main" maxWidth="md">
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          backgroundColor: "#fff",
-          padding: 4,
-          borderRadius: 2,
-          boxShadow: 3,
-        }}
-      >
-        <Typography variant="h4" component="h1" gutterBottom>
-          Profile
+    <Grid
+      container
+      direction="row"
+      sx={{
+        mt: 6,
+        mb: 6,
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+    >
+      <Grid size={10}>
+        <Typography
+          variant="h4"
+          component="h1"
+          sx={{
+            color: COLORS.accent,
+          }}
+        >
+          My Profile
         </Typography>
-
-        <Box sx={{ width: "100%" }}>
-          <Typography variant="h6" color="textPrimary" gutterBottom>
+      </Grid>
+      <Grid size={2}>
+        <Button
+          onClick={logout}
+          variant="contained"
+          sx={{
+            backgroundColor: COLORS.accent,
+          }}
+          fullWidth
+        >
+          Logout
+        </Button>
+      </Grid>
+      <Grid size={6}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            backgroundColor: COLORS.light,
+            borderRadius: 2,
+            padding: 4,
+          }}
+        >
+          <Typography variant="h6" color={COLORS.accent} gutterBottom>
             Full Name:
           </Typography>
-          <Typography variant="body1" color="textSecondary">
+          <Typography variant="body1" color={COLORS.secondary}>
             {user.full_name}
           </Typography>
 
-          <Typography variant="h6" color="textPrimary" sx={{ mt: 2 }}>
+          <Typography variant="h6" color={COLORS.accent} sx={{ mt: 2 }}>
             Email:
           </Typography>
-          <Typography variant="body1" color="textSecondary">
+          <Typography variant="body1" color={COLORS.secondary}>
             {user.email}
           </Typography>
 
-          <Typography variant="h6" color="textPrimary" sx={{ mt: 2 }}>
+          <Typography variant="h6" color={COLORS.accent} sx={{ mt: 2 }}>
             Phone:
           </Typography>
-          <Typography variant="body1" color="textSecondary">
+          <Typography variant="body1" color={COLORS.secondary}>
             {user.phone ?? "N/A"}
           </Typography>
         </Box>
+      </Grid>
 
-        <Divider sx={{ my: 3 }} />
-
-        <Box sx={{ width: "100%" }}>
-          <Typography variant="h6" color="textPrimary" gutterBottom>
-            Company Info
+      <Grid size={6}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            backgroundColor: COLORS.dark,
+            borderRadius: 2,
+            padding: 4,
+          }}
+        >
+          <Typography variant="h6" color={COLORS.accent} gutterBottom>
+            Company Info:
           </Typography>
 
-          <Typography variant="body1" color="textSecondary">
+          <Typography variant="body1" color={COLORS.light}>
             <strong>Name:</strong> {user.Company?.name}
           </Typography>
-          <Typography variant="body1" color="textSecondary">
+          <Typography variant="body1" color={COLORS.light}>
             <strong>Address:</strong>{" "}
             {`${user.Company?.address_line_1}, ${user.Company?.address_line_2}`}
           </Typography>
-          <Typography variant="body1" color="textSecondary">
+          <Typography variant="body1" color={COLORS.light}>
             <strong>City:</strong> {user.Company?.address_city}
           </Typography>
-          <Typography variant="body1" color="textSecondary">
+          <Typography variant="body1" color={COLORS.light}>
             <strong>State:</strong> {user.Company?.address_state}
           </Typography>
-          <Typography variant="body1" color="textSecondary">
+          <Typography variant="body1" color={COLORS.light}>
             <strong>Country:</strong> {user.Company?.address_country}
           </Typography>
-          <Typography variant="body1" color="textSecondary">
+          <Typography variant="body1" color={COLORS.light}>
             <strong>Expected Activity:</strong>{" "}
             {user.Company?.expected_activity}
           </Typography>
         </Box>
-
-        <Button
-          onClick={logout}
-          variant="contained"
-          color="error"
-          fullWidth
-          sx={{ mt: 3 }}
-        >
-          Logout
-        </Button>
-
-        <Divider sx={{ my: 3 }} />
-
-        <Typography variant="h6" color="textPrimary" gutterBottom>
-          Payment Date Checker
-        </Typography>
+      </Grid>
+      <Grid size={12}>
         <PaymentDateChecker />
-      </Box>
-    </Container>
+      </Grid>
+    </Grid>
   );
 }
 
