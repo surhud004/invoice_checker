@@ -41,6 +41,7 @@ function ProfilePage() {
       }
     };
 
+    // fetch profile on user auth using token from local storage
     fetchUserProfile();
   }, [token]);
 

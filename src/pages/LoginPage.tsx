@@ -24,6 +24,9 @@ function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      if (password && password.length < 8) {
+        setError("Password must be minimum 8 characters");
+      }
       await login(email, password);
       navigate("/profile");
     } catch (err) {

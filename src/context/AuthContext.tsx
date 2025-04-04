@@ -18,6 +18,7 @@ export function AuthProvider({ children }) {
 
       const data = await response.json();
       if (data.success && data.token) {
+        // set token as authToken in local storage in browser
         localStorage.setItem("authToken", data.token);
         setToken(data.token);
       } else {
@@ -29,6 +30,7 @@ export function AuthProvider({ children }) {
   };
 
   const logout = () => {
+    // once user clicks logout, remove authToken from local storage, thereby, removing the stored token and clearing browser application storage
     localStorage.removeItem("authToken");
     setToken(null);
   };

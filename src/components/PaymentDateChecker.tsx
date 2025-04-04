@@ -7,6 +7,11 @@ function PaymentDateChecker() {
   const [payCycleDate, setPayCycleDate] = useState("");
   const [paymentDate, setPaymentDate] = useState<string | null>(null);
 
+  /**
+   * Formats the date and returns a number array. e.g "2025-04-04" returns number array [2025, 04, 04]
+   * @param dateStr date string in format "YYYY-MM-DD"
+   * @returns number date array in format [YYYY, MM, DD]
+   */
   const formatDate = (dateStr: string) => {
     const formatDateArr = dateStr.split("-");
     return formatDateArr.map(Number);
@@ -14,17 +19,19 @@ function PaymentDateChecker() {
 
   const calculatePaymentDate = () => {
     if (invoiceDate && payCycleDate) {
+      // once the variables are set, we format the date in number array
+      // we need to do this to fix the JavaScript date offset occurs due to timezone differences between local time and UTC
       const invoiceDateArr = formatDate(invoiceDate);
       const payCycleDateArr = formatDate(payCycleDate);
       const invoice = new Date(
-        invoiceDateArr[0],
-        invoiceDateArr[1] - 1,
-        invoiceDateArr[2]
+        invoiceDateArr[0], // YYYY
+        invoiceDateArr[1] - 1, // MM minus one because month array starts from zero i.e. 0 = Jan, 1 = Feb, etc.
+        invoiceDateArr[2] // DD
       );
       const cycle = new Date(
-        payCycleDateArr[0],
-        payCycleDateArr[1] - 1,
-        payCycleDateArr[2]
+        payCycleDateArr[0], // YYYY
+        payCycleDateArr[1] - 1, // MM minus one because month array starts from zero i.e. 0 = Jan, 1 = Feb, etc.
+        payCycleDateArr[2] // DD
       );
       const payment = new Date(
         invoice.getFullYear(),
@@ -32,8 +39,16 @@ function PaymentDateChecker() {
         cycle.getDate()
       );
       if (payment < invoice) {
+        // if payment date calculated is earlier than invoice date, add one to month so it would display next month's date
+        // e.g. invoice = 2025-04-15
+        // pay cycle = 2025-04-01 (pay on 1st of every month)
+        // then, payment = 2025-05-01 (next payment is 1st May 2025)
         payment.setMonth(payment.getMonth() + 1);
       }
+      // otherwise, keep as it is
+      // e.g. invoice = 2025-04-15
+      // pay cycle = 2025-04-30 (pay on 30th of every month)
+      // then, payment = 2025-04-30 (next payment is 30th April 2025)
       setPaymentDate(payment.toDateString());
     }
   };
